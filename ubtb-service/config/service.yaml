@@ -1,0 +1,44 @@
+service_name: ubtb-service
+environment: test
+
+app:
+  start_command: "java -jar /opt/ubtb/backend/target/ubtb-backend.jar"
+  health_check_url: "http://127.0.0.1:8080/actuator/health"
+  base_url: "http://127.0.0.1:8080"
+  startup_timeout_seconds: 120
+
+auth:
+  type: password
+  login_url: "/api/auth/login"
+  username_env: "TEST_EMAIL"
+  password_env: "TEST_PASSWORD"
+  token_json_path: "$.data.token"
+  token_header: "Authorization"
+  token_prefix: "Bearer "
+
+flow:
+  name: core-flow
+  description: "登录 -> 获取用户信息 -> 数据看板 -> 轨迹列表 -> 轨迹详情 -> 公证列表 -> 白名单 -> 组织设置"
+  script_type: python
+  output_path: "generated/ubtb-service/core-flow.py"
+
+keploy:
+  output_dir: "keploy"
+  allow_record_environment:
+    - test
+    - dev
+    - staging
+
+security:
+  forbid_production: true
+  scan_sensitive_data: true
+  sensitive_patterns:
+    - token
+    - cookie
+    - password
+    - phone
+    - email
+    - id_card
+    - internal_ip
+    - secret
+    - access_key

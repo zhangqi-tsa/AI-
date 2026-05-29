@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+
+# Sanitize mapping files (contain original sensitive values)
+.sanitize-map.json
+**/.sanitize-map.json
+
+# OS / macOS metadata
+.DS_Store
+Thumbs.db
+._*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Keploy intermediate artifacts
+docker-compose-tmp.yaml
+
+# Archives (extracted content is tracked instead)
+*.tar.gz
+*.zip
+
+# Test target projects (SUT source code - not part of this repo)
+test-project/
+
+# Local tool configs
+.claude/
+.opencode/

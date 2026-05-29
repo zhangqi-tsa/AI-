@@ -1,0 +1,71 @@
+service_name: example-service
+environment: test
+
+app:
+  start_command: "java -jar target/example-service.jar"
+  health_check_url: "http://127.0.0.1:8080/actuator/health"
+  base_url: "http://127.0.0.1:8080"
+  startup_timeout_seconds: 120
+
+auth:
+  type: password
+  login_url: "/api/login"
+  username_env: "TEST_USERNAME"
+  password_env: "TEST_PASSWORD"
+  token_json_path: "$.data.token"
+  token_header: "Authorization"
+  token_prefix: "Bearer "
+
+flow:
+  name: core-flow
+  description: "登录 -> 新增 -> 查询 -> 修改 -> 删除"
+  script_type: python
+  output_path: "generated/example-service/core-flow.py"
+
+keploy:
+  output_dir: "keploy"
+  allow_record_environment:
+    - test
+    - dev
+    - staging
+
+# Keploy replay configuration (for keploy-replay.sh)
+replay:
+  enabled: true
+  timeout_seconds: 300
+  # Optional: paths to exclude from replay assertions
+  exclude_paths:
+    - "/actuator/health"
+    - "/metrics"
+
+# Noise config: fields that change between runs and should be ignored during replay.
+# Can be auto-generated from review report via gen-noise-config.py.
+noise:
+  - "resp.header.Date"
+  - "resp.header.Expires"
+  - "resp.body.timestamp"
+
+security:
+  forbid_production: true
+  scan_sensitive_data: true
+  sensitive_patterns:
+    - token
+    - cookie
+    - password
+    - phone
+    - email
+    - id_card
+    - internal_ip
+  # Custom scanner patterns (extends built-in rules for this project)
+  custom_patterns:
+    # Example: detect custom API key header
+    # - name: api_key
+    #   pattern: "x-api-key"
+    #   severity: HIGH
+    #   type: field
+    #
+    # Example: detect AWS access key
+    # - name: aws_access_key
+    #   pattern: "AKIA[0-9A-Z]{16}"
+    #   severity: HIGH
+    #   type: data

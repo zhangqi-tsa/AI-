@@ -1,0 +1,20 @@
+kind: Postgres
+name: test-2-mock
+spec:
+  created: 1779417021
+  metadata:
+    name: test-2-mock
+    type: SQL
+  postgresRequests:
+  - header:
+      protocol: Postgres
+    message:
+    - query: SELECT * FROM tracks WHERE id = 'track-001'
+      type: Q
+  postgresResponses:
+  - header:
+      protocol: Postgres
+    message:
+    - data: mock_data
+      type: D
+version: api.keploy.io/v1beta1
