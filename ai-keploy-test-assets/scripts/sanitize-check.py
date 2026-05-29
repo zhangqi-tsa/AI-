@@ -57,54 +57,54 @@ def format_report(
 ) -> str:
     """Format findings as a Markdown report."""
     lines = [
-        "# Sanitize Check Report",
+        "# 敏感数据检查报告",
         "",
-        f"> Directory: {target_dir}",
-        f"> Field findings: {len(field_findings)}",
-        f"> Data pattern findings: {len(data_findings)}",
+        f"> 扫描目录: {target_dir}",
+        f"> 字段风险数: {len(field_findings)}",
+        f"> 数据模式风险数: {len(data_findings)}",
         "",
     ]
 
     # Sensitive Fields
-    lines.append("## Sensitive Fields")
+    lines.append("## 敏感字段")
     lines.append("")
     if field_findings:
-        lines.append("| Severity | Field | File | Line |")
-        lines.append("|----------|-------|------|------|")
+        lines.append("| 严重性 | 字段 | 文件 | 行号 |")
+        lines.append("|--------|------|------|------|")
         for item in field_findings:
             lines.append(f"| {item['severity']} | {item['field']} | {os.path.basename(item['file'])} | {item['line']} |")
     else:
-        lines.append("No sensitive field names detected.")
+        lines.append("未检测到敏感字段。")
     lines.append("")
 
     # Sensitive Data Patterns
-    lines.append("## Sensitive Data Patterns")
+    lines.append("## 敏感数据模式")
     lines.append("")
     if data_findings:
-        lines.append("| Severity | Pattern | Value (truncated) | File |")
-        lines.append("|----------|---------|--------------------|------|")
+        lines.append("| 严重性 | 模式 | 值（截断） | 文件 |")
+        lines.append("|--------|------|------------|------|")
         for item in data_findings:
             lines.append(f"| {item['severity']} | {item['pattern']} | {item['value']} | {os.path.basename(item['file'])} |")
     else:
-        lines.append("No sensitive data patterns detected.")
+        lines.append("未检测到敏感数据模式。")
     lines.append("")
 
     # Summary
-    lines.append("## Summary")
+    lines.append("## 概要")
     lines.append("")
     high_fields = [f for f in field_findings if f["severity"] == "HIGH"]
     high_data = [d for d in data_findings if d["severity"] == "HIGH"]
     total_high = len(high_fields) + len(high_data)
 
-    lines.append(f"- Total field findings: {len(field_findings)}")
-    lines.append(f"- Total data pattern findings: {len(data_findings)}")
-    lines.append(f"- HIGH severity: {total_high}")
+    lines.append(f"- 字段风险总数: {len(field_findings)}")
+    lines.append(f"- 数据模式风险总数: {len(data_findings)}")
+    lines.append(f"- 高风险项: {total_high}")
     lines.append("")
 
     if total_high > 0:
-        lines.append("**Action Required**: High-risk sensitive content found. Review and address before archiving.")
+        lines.append("**需要处理**: 发现高风险敏感内容，请在归档前审查并处理。")
     else:
-        lines.append("**OK**: No high-risk sensitive content detected. Low/medium findings should still be reviewed.")
+        lines.append("**通过**: 未发现高风险敏感内容。中/低风险项建议人工复查。")
 
     return "\n".join(lines)
 

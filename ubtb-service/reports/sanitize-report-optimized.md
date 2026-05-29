@@ -1,13 +1,13 @@
-# Sanitize Check Report
+# 敏感数据检查报告
 
-> Directory: ../ubtb-service/keploy
-> Field findings: 11
-> Data pattern findings: 46
+> 扫描目录: ../ubtb-service/keploy
+> 字段风险数: 11
+> 数据模式风险数: 46
 
-## Sensitive Fields
+## 敏感字段
 
-| Severity | Field | File | Line |
-|----------|-------|------|------|
+| 严重性 | 字段 | 文件 | 行号 |
+|--------|------|------|------|
 | HIGH | password | post-api-auth-login-1-ebpf.yaml | 18 |
 | HIGH | token | post-api-auth-login-1-ebpf.yaml | 32 |
 | HIGH | password | test-1.yaml | 6 |
@@ -20,10 +20,10 @@
 | HIGH | authorization | test-7.yaml | 8 |
 | HIGH | authorization | test-8.yaml | 8 |
 
-## Sensitive Data Patterns
+## 敏感数据模式
 
-| Severity | Pattern | Value (truncated) | File |
-|----------|---------|--------------------|------|
+| 严重性 | 模式 | 值（截断） | 文件 |
+|--------|------|------------|------|
 | MEDIUM | phone | 16533525... | mocks-ebpf.yaml |
 | MEDIUM | phone | 16533525... | mocks-ebpf.yaml |
 | MEDIUM | email | admin@ub... | mocks-ebpf.yaml |
@@ -71,10 +71,10 @@
 | MEDIUM | internal_ip | 127.0.0.... | test-8.yaml |
 | HIGH | token_value | Bearer e... | test-8.yaml |
 
-## Summary
+## 概要
 
-- Total field findings: 11
-- Total data pattern findings: 46
-- HIGH severity: 22
+- 字段风险总数: 11
+- 数据模式风险总数: 46
+- 高风险项: 22
 
-**Action Required**: High-risk sensitive content found. Review and address before archiving.
+**需要处理**: 发现高风险敏感内容，请在归档前审查并处理。
